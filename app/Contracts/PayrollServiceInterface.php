@@ -5,6 +5,7 @@ namespace App\Contracts;
 interface PayrollServiceInterface
 {
     public function calculateEmployeeInsurance(float $insuranceSalary): float;
+    public function calculateMartyrs_Fund(float $grossSalary): float;
 
     public function calculateTax(float $taxableSalary): float;
 

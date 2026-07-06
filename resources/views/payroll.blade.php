@@ -370,6 +370,7 @@
                     $totalDeductions =
                         ($result['employeeInsurance'] ?? 0)
                         + ($result['tax'] ?? 0)
+                        + ($result['martyrs_Fund'] ?? 0)
                         + ($result['otherDeductions'] ?? 0);
 
                     $netSalary = $result['netSalary'] ?? ($grossSalary - $totalDeductions);
@@ -420,6 +421,11 @@
                     <tr>
                         <td>Income Tax</td>
                         <td class="deduction-amt">({{ number_format($result['tax'] ?? 0,2) }})</td>
+                    </tr>
+
+                    <tr>
+                        <td>Martyrs Fund</td>
+                        <td class="deduction-amt">({{ number_format($result['martyrs_Fund'] ?? 0,2) }})</td>
                     </tr>
 
                     <tr>

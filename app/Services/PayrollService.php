@@ -7,9 +7,8 @@ use App\Contracts\PayrollServiceInterface;
 class PayrollService implements PayrollServiceInterface
 {
     private const EMPLOYEE_INSURANCE_RATE = 0.11;
-
+    private const Martyrs_Fund_RATE = 0.0005;
     private const ANNUAL_PERSONAL_EXEMPTION = 20000;
-
     private const WORK_DAYS_PER_MONTH = 30;
     private const WORK_HOURS_PER_DAY = 8;
 
@@ -31,6 +30,11 @@ class PayrollService implements PayrollServiceInterface
     public function calculateEmployeeInsurance(float $insuranceSalary): float
     {
         return $insuranceSalary * self::EMPLOYEE_INSURANCE_RATE;
+    }
+
+    public function calculateMartyrs_Fund(float $grossSalary): float
+    {
+        return $grossSalary * self::Martyrs_Fund_RATE;
     }
 
     public function calculateTax(float $taxableSalary): float
@@ -68,6 +72,7 @@ class PayrollService implements PayrollServiceInterface
         return $data['grossSalary']
             - $data['employeeInsurance']
             - $data['tax']
+            - $data['martyrs_Fund']
             - $data['otherDeductions'];
     }
 
@@ -88,11 +93,12 @@ class PayrollService implements PayrollServiceInterface
 
         $taxableSalary = $grossSalary - $employeeInsurance;
         $tax = $this->calculateTax($taxableSalary);
-
+        $martyrs_Fund = $this->calculateMartyrs_Fund($grossSalary);
         $netSalary = $this->calculateNetSalary([
             'grossSalary'       => $grossSalary,
             'employeeInsurance' => $employeeInsurance,
             'tax'               => $tax,
+            'martyrs_Fund'      => $martyrs_Fund,
             'otherDeductions'   => $data['otherDeductions'],
         ]);
 
@@ -106,6 +112,7 @@ class PayrollService implements PayrollServiceInterface
             'taxableSalary'     => $taxableSalary,
             'employeeInsurance' => $employeeInsurance,
             'tax'               => $tax,
+            'martyrs_Fund'      => $martyrs_Fund,
             'otherDeductions'   => $data['otherDeductions'],
             'netSalary'         => $netSalary,
         ];
